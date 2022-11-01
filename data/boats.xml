@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<boats>
+    <boat id="tere">
+        <name>Tere</name>
+        <seats rows="9" cols="9">
+            <row id="A">
+                <seat col="2" available="0" />
+                <seat col="3" />
+                <seat col="4" />
+                <seat col="6" available="0" />
+                <seat col="7" available="0" />
+                <seat col="8" available="0" />
+            </row>
+            <row id="B">
+                <seat col="2" />
+                <seat col="3" />
+                <seat col="4" />
+                <seat col="6" available="0" />
+                <seat col="7" />
+                <seat col="8" />
+            </row>
+            <row id="C">
+                <seat col="1" available="0" />
+                <seat col="2" available="0" />
+                <seat col="3" available="0" />
+                <seat col="4" />
+                <seat col="6" />
+                <seat col="7" />
+                <seat col="8" />
+                <seat col="9" />
+            </row>
+            <row id="D">
+                <seat col="1" />
+                <seat col="2" />
+                <seat col="3" />
+                <seat col="4" />
+                <seat col="6" available="0" />
+                <seat col="7" available="0" />
+                <seat col="8" available="0" />
+                <seat col="9" />
+            </row>
+            <row id="E">
+                <seat col="1" available="0" />
+                <seat col="2" available="0" />
+                <seat col="3" />
+                <seat col="4" />
+                <seat col="6" />
+                <seat col="7" />
+                <seat col="8" />
+                <seat col="9" />
+            </row>
+            <row id="F">
+                <seat col="1" />
+                <seat col="2" />
+                <seat col="3" />
+                <seat col="4" />
+                <seat col="6" />
+                <seat col="7" />
+                <seat col="8" />
+                <seat col="9" />
+            </row>
+            <row id="G">
+                <seat col="1" />
+                <seat col="2" available="0" />
+                <seat col="3" />
+                <seat col="4" />
+                <seat col="6" />
+                <seat col="7" available="0" />
+                <seat col="8" available="0" />
+                <seat col="9" available="0" />
+            </row>
+            <row id="H">
+                <seat col="1" />
+                <seat col="2" />
+                <seat col="3" />
+                <seat col="4" />
+                <seat col="6" />
+                <seat col="7" />
+                <seat col="8" />
+                <seat col="9" />
+            </row>
+            <row id="I">
+                <seat col="2" />
+                <seat col="3" />
+                <seat col="4" />
+                <seat col="6" />
+                <seat col="7" />
+                <seat col="8" />
+            </row>
+        </seats>
+        <menu>
+
+        </menu>
+    </boat>
+    <boat id="nui">
+        <name>Nui</name>
+        <seats rows="12" cols="9">
+
+        </seats>
+    </boat>
+</boats>
