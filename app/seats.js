@@ -5,7 +5,11 @@ export default {
         rows: 0,
         seats: [],
         loading: true,
-        error: null
+        error: null,
+        hover: false,
+        hoverX: 0,
+        hoverY: 0,
+        hoverSeat: ''
     }),
     async created() {
         const res = await fetch('data/boats.xml')
@@ -40,6 +44,17 @@ export default {
         seatClicked(seat) {
             if (!seat.available) return;
             seat.selected = !seat.selected;
+        },
+        onMouseEnter(seat) {
+          this.hover = true
+          this.hoverSeat = seat.id
+        },
+        onMouseMove(e) {
+          this.hoverX = `${(e.x + 10)}px`
+          this.hoverY = `${(e.y + 10)}px`
+        },
+        onMouseLeave() {
+          this.hover = false
         }
     },
     template: /*html*/`
@@ -51,8 +66,18 @@ export default {
                     v-if="seats"
                     v-for="seat in seats" v-bind="seat"
                     @clicked="seatClicked(seat)"
+                    @mouseenter="onMouseEnter(seat)"
+                    @mouseleave="onMouseLeave()"
+                    @mousemove="(e) => onMouseMove(e)"
                 />
             </div>
+        </div>
+        <div
+          class="seat-popup"
+          v-if="hover"
+          :style="{ top: hoverY, left: hoverX }"
+        >
+          {{ hoverSeat }}
         </div>
     `
 }

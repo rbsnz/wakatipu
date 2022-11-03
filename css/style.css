@@ -148,6 +148,15 @@ video {
     transition: all 0.1s;
 }
 
+.seat-popup {
+  position: absolute;
+  background: #222;
+  padding: 4px;
+  color: white;
+  z-index: 999;
+  pointer-events: none;
+}
+
 .blur-bg {
     backdrop-filter: blur(8px);
 }
