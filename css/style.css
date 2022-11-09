@@ -1,18 +1,22 @@
+:root {
+    --btn-border-color: rgba(255, 255, 255, 0.1);
+    --btn-border-hover-color: rgba(255, 255, 255, 0.6);
+    --btn-bg-color: rgba(255, 255, 255, 0.1);
+}
+
 * {
     margin: 0px;
     padding: 0px;
     font-family: 'Roboto', sans-serif;
-    font-size: 16px;
 }
 
 html {
     box-sizing: border-box;
     min-height: 100%;
+    font-size: 62.5%;
 }
 
-*, *:before, *:after {
-    box-sizing: inherit;
-}
+*, *:before, *:after { box-sizing: inherit; }
 
 #app {
     min-height: 100vh;
@@ -27,9 +31,7 @@ html {
 }
 
 header { grid-area: 'header'; }
-main {
-    grid-area: 'main';
-}
+main { grid-area: 'main'; }
 footer {
     grid-area: 'footer';
     padding: 1rem;
@@ -38,12 +40,13 @@ footer {
     gap: 1rem;
     align-items: center;
     justify-content: center;
+    font-size: 1.5em;
 }
 
 footer > ul {
     list-style-type: none;
     display: flex;
-    gap: 0.8rem;
+    gap: 2rem;
 }
 
 /* Default styles */
@@ -100,9 +103,9 @@ video {
 
 .title-link {
     font-family: 'Euphoria Script', cursive;
-    font-size: 4rem;
+    font-size: 6rem;
     color: white;
-    text-shadow: 2px 2px 4px black;
+    text-shadow: 0.1rem 0.1rem 0.1rem black;
 }
 
 .title-link:hover { text-decoration: none; }
@@ -127,47 +130,131 @@ video {
     grid-area: 1 / 1 / 1 / 1;
 }
 
-.seats {
-    padding: 4px;
-    display: grid;
-    background: rgba(0, 0, 0, 0.2);
+/* Containers */
+
+.glass-container {
+    backdrop-filter: blur(6px);
+    background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 4px;
+}
+
+/* Weather */
+
+.weather-days {
+    display: grid;
+    grid-template-columns: repeat(5, 10rem);
+    gap: 1rem;
+}
+
+.weather-day {
+    aspect-ratio: calc(10/16);
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 0.2rem solid var(--btn-border-color);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    align-items: center;
+    justify-items: center;
+    user-select: none;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    transition: border 0.1s;
+}
+
+.weather-day:hover {
+    border-color: var(--btn-border-hover-color);
+}
+
+.weather-temp {
+    font-size: 3rem;
+    align-self: end;
+}
+
+.weather-date {
+    margin: 0rem 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.weather-day-number {
+    font-weight: bold;
+}
+
+.weather-day-ofweek {
+    font-size: 2rem;
+}
+
+.sunny {
+    background-image: url(/media/amcharts_weather_icons_1.0.0/animated/day.svg);
+    background-size: 24rem;
+    background-position-y: -8rem;
+}
+
+.cloudy {
+    background-image: url(/media/amcharts_weather_icons_1.0.0/animated/cloudy.svg);
+    background-position-x: -3.3rem;
+    background-position-y: -2.4rem;
+}
+
+.showers {
+    background-image: url(/media/amcharts_weather_icons_1.0.0/animated/rainy-1.svg);
+    background-position-x: -1.4rem;
+    background-position-y: -3rem;
+}
+
+.rainy {
+    background-image: url(/media/amcharts_weather_icons_1.0.0/animated/rainy-6.svg);
+    background-position-x: -2.8rem;
+    background-position-y: -4.4rem;
+}
+
+/* Seating */
+
+.seats {
+    margin: 8px;
+    display: grid;
 }
 
 .seat {
     margin: 4px;
     padding: 4px;
-    border: 2px solid #643F62;
+    border: 2px solid #ffffff11;
     border-radius: 4px;
     text-align: center;
     user-select: none;
-    background: #643F62;
+    background: transparent;
     font-size: 20px;
-    color: #ffffff;
+    color: #ffffff33;
     transition: all 0.1s;
+}
+
+.seat:hover {
+    border-color: rgba(255, 255, 255, 0.2)
 }
 
 .seat-popup {
   position: absolute;
-  background: #222;
+  background: rgba(0, 0, 0, 0.9);
   padding: 4px;
   color: white;
   z-index: 999;
   pointer-events: none;
-}
-
-.blur-bg {
-    backdrop-filter: blur(8px);
+  border-radius: 4px;
+  font-size: 1.6rem;
+  width: max-content;
+  max-width: 300px;
 }
 
 .seat.available {
-    background-color: #4b4b4b;
-    border-color: #4b4b4b;
+    background-color: #ffffff33;
+    border-color: transparent;
+    color: white;
 }
 
 .seat.available:hover {
-    border-color: #818181;
+    border-color: rgba(255, 255, 255, 0.5);
     color: #cecece;
     transition: border 0.1s;
 }
@@ -181,4 +268,17 @@ video {
     color: rgb(211, 255, 253);
     border-color: #00dbdb;
     transition: border 0.1s;
+}
+
+.seat-info {
+    font-size: 1.6rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+}
+
+/* Game */
+
+.game-canvas:focus {
+    outline: none;
 }

@@ -12,7 +12,7 @@ export default {
     template: /*html*/`
         <button
             class="seat"
-            :class="{ available: available, selected: selected }"
+            :class="{ available, selected }"
             :style="{ gridColumn: pos.col, gridRow: pos.row }"
             @click="$emit('clicked')"
         >

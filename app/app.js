@@ -8,9 +8,6 @@ export default {
                 </router-link>
             </div>
             <nav>
-                <ul>
-                    <li><router-link to="/seats">Booking</router-link></li>
-                </ul>
             </nav>
         </header>
         <main class="centered">
