@@ -8,7 +8,7 @@ export default {
         loading: Boolean
     },
     template: /*html*/`
-        <div class="weather-day" :class="weather">
+        <button class="weather-day" :class="[weather, { selected }]">
             <div v-if="loading">
                 Loading...
             </div>
@@ -19,6 +19,6 @@ export default {
                     <div class="weather-day-number">{{ day }}</div>
                 </div>
             </template>
-        </div>
+        </button>
     `
 }

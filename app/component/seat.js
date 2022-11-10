@@ -15,6 +15,7 @@ export default {
             :class="{ available, selected }"
             :style="{ gridColumn: pos.col, gridRow: pos.row }"
             @click="$emit('clicked')"
+            :disabled="!available"
         >
             {{ id }}
         </button>

@@ -1,5 +1,9 @@
+import { useBookingStore } from "../stores/booking.js"
 
 export default {
+    setup() {
+        return { store: useBookingStore() }
+    },
     data: () => ({
         cols: 0,
         rows: 0,
@@ -91,12 +95,12 @@ export default {
                     v-if="seats"
                     v-for="seat in seats" v-bind="seat"
                     @clicked="seatClicked(seat)"
-                    @mouseenter="mouseEnter(seat)"
-                    @mousemove="(e) => mouseMove(e)"
-                    @mouseleave="mouseLeave()"
+                    @pointerenter="mouseEnter(seat)"
+                    @pointermove="mouseMove"
+                    @pointerleave="mouseLeave"
                 />
             </div>
-            <div class="seat-info">
+            <div class="seat-info" :style="{ marginBottom: '1rem' }">
                 <div>
                     Selected seats: {{ seats.filter(x => x.selected).length }}
                 </div>
@@ -107,6 +111,10 @@ export default {
             <div v-if="hover" class="seat-popup" :style="{ left: popupX, top: popupY }">
                 <div v-if="hover.available">Price: $\{{ hover.price }}</div>
                 <div v-else>This seat is unavailable.</div>
+            </div>
+            <div style="margin: 1rem" class="uniform-grid-columns">
+                <button @click="store.previousStep()">Back</button>
+                <button @click="store.nextStep()">Continue</button>
             </div>
         </div>
     `
