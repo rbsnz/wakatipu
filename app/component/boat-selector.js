@@ -31,13 +31,14 @@ export default {
         }
     },
     template: /*html*/`
-        <div style="display: flex; flex-direction: column; margin: 1rem; font-size: 2rem">
-            <div style="margin-bottom: 1rem; display: flex">
-                Please select a boat.
-            </div>
+        <div style="margin: 1rem; font-size: 2rem">
+            <div style="margin-bottom: 1rem; display: flex">Please select a boat.</div>
             <div class="uniform-grid-columns" style="margin-bottom: 1rem">
                 <button v-for="boat in boats" @click="selectBoat(boat)" :class="{ selected: boat.selected }">
-                    {{ boat.name }}
+                    <div class="boat-name">{{ boat.name }}</div>
+                    <div class="boat-image" :style="{ backgroundImage: 'url(media/' + boat.image + ')' }"></div>
+                    <div>Maximum capacity: {{ boat.seats.length }}</div>
+                    <div>Seats available: {{ boat.seats.filter(x => x.available).length }}</div>
                 </button>
             </div>
             <div class="uniform-grid-columns">

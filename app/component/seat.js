@@ -10,7 +10,7 @@ export default {
         <button
             class="seat"
             :class="{ available, selected }"
-            :style="{ gridColumn: col, gridRow: row }"
+            :style="{ gridColumn: col, gridRow: row, aspectRatio: 1 }"
             @click="$emit('clicked')"
             :disabled="!available"
         >

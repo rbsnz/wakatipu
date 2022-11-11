@@ -41,6 +41,7 @@ export const useBoatStore = Pinia.defineStore('boat', {
                     this.boats.push({
                         id: xmlBoat.getAttribute('id'),
                         name: xmlBoat.getAttribute('name'),
+                        image: xmlBoat.querySelector('image').textContent,
                         rows: parseInt(xmlSeats.getAttribute('rows')),
                         cols: parseInt(xmlSeats.getAttribute('cols')),
                         seats

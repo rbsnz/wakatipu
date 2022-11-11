@@ -246,6 +246,22 @@ video {
     text-align: center;
 }
 
+/* Boat selection */
+
+.boat-name {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.boat-image {
+    margin-bottom: 0.5rem;
+    aspect-ratio: calc(16 / 10);
+    width: 40rem;
+    background-size: cover;
+    background-position-y: bottom;
+    border-radius: 8px;
+}
+
 /* Seating */
 
 .seats {
@@ -282,7 +298,6 @@ video {
 .seat.selected:hover {
     color: rgb(211, 255, 253);
     border-color: #00dbdb;
-    transition: border 0.1s;
 }
 
 .seat-info {
