@@ -306,8 +306,8 @@ button {
     border: 0.2rem solid var(--btn-border-color);
     background-color: var(--btn-bg-color);
     transition:
-        border-color 0.1s,
-        background-color 0.1s;
+        border-color 0.2s,
+        background-color 0.3s;
     user-select: none;
     color: white;
     font-size: 2rem;

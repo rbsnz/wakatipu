@@ -1,19 +1,16 @@
 export default {
-    data: () => ({}),
     props: {
         id: String,
         available: Boolean,
         selected: Boolean,
-        pos: {
-            col: Number,
-            row: Number
-        }
+        col: Number,
+        row: Number
     },
     template: /*html*/`
         <button
             class="seat"
             :class="{ available, selected }"
-            :style="{ gridColumn: pos.col, gridRow: pos.row }"
+            :style="{ gridColumn: col, gridRow: row }"
             @click="$emit('clicked')"
             :disabled="!available"
         >

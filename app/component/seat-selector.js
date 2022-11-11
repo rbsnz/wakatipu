@@ -1,8 +1,12 @@
-import { useBookingStore } from "../stores/booking.js"
+import { useBookingStore } from '../stores/booking.js'
+import { useBoatStore } from '../stores/boat.js'
 
 export default {
     setup() {
-        return { store: useBookingStore() }
+        return {
+            bookingStore: useBookingStore(),
+            boatStore: useBoatStore()
+        }
     },
     data: () => ({
         cols: 0,
@@ -15,35 +19,21 @@ export default {
         hoverY: 0
     }),
     async created() {
-        const xml = await this.load()
-        if (!xml) return
-        const doc = new DOMParser().parseFromString(xml, 'text/xml')
-        const seats = doc.querySelector('seats')
+        const boats = await this.boatStore.loadBoats()
+        const boat = boats.filter(boat => boat.id.toLowerCase() == this.bookingStore.selectedBoat.toLowerCase())[0]
 
-        this.rows = +seats.getAttribute('rows')
-        this.cols = +seats.getAttribute('cols')
+        this.rows = boat.rows
+        this.cols = boat.cols
 
-        const defaultPrice = 20
+        this.seats = boat.seats
 
-        const rows = [...seats.querySelectorAll('row')]
-        let rowNumber = 1
-        for (let row of rows) {
-            const rowId = row.getAttribute('id')
-            const rowPrice = row.getAttribute('price')
-            const price = rowPrice ? parseFloat(rowPrice) : defaultPrice
-            for (let i = 0; i < row.children.length; i++) {
-                this.seats.push({
-                    id: `${rowId}${i+1}`,
-                    pos: {
-                        col: +row.children[i].getAttribute('col'),
-                        row: rowNumber
-                    },
-                    available: (row.children[i].getAttribute('available') || '1') === '1',
-                    price
-                })
-            }
-            rowNumber++
+        for (let seat of this.seats) {
+            seat.selected = this.bookingStore.selectedSeats.includes(seat.id)
         }
+
+        console.log(this.seats)
+
+        this.loading = false
     },
     methods: {
         async load() {
@@ -63,6 +53,15 @@ export default {
         seatClicked(seat) {
             if (!seat.available) return;
             seat.selected = !seat.selected;
+            const arr = []
+            const index = this.bookingStore.selectedSeats.indexOf(seat.id)
+            if (seat.selected) {
+                if (index == -1)
+                    this.bookingStore.selectedSeats.push(seat.id)
+            } else {
+                if (index != -1)
+                    this.bookingStore.selectedSeats.splice(index, 1)
+            }
         },
         mouseEnter(seat) {
             this.hover = seat
@@ -113,8 +112,8 @@ export default {
                 <div v-else>This seat is unavailable.</div>
             </div>
             <div style="margin: 1rem" class="uniform-grid-columns">
-                <button @click="store.previousStep()">Back</button>
-                <button @click="store.nextStep()">Continue</button>
+                <button @click="bookingStore.back()">Back</button>
+                <button @click="bookingStore.next()">Continue</button>
             </div>
         </div>
     `

@@ -1,8 +1,7 @@
-const { ref } = Vue
 import { useBookingStore } from '../stores/booking.js'
 
-const ApiKey = '0c2babeae2af2e14fd58214c0fd330fa'
-const Coords = { lat: -45.05, lon: 168.5 }
+import weatherService from '../services/weather.js'
+
 const DayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
 function getWeatherType(id) {
@@ -19,7 +18,7 @@ function getWeatherType(id) {
 
 export default {
     data: () => ({
-        store: useBookingStore(),
+        bookingStore: useBookingStore(),
         loading: true,
         days: Array.from({ length: 5 }, _ => ({
             day: 0,
@@ -31,9 +30,6 @@ export default {
         })),
         times: [
             { hour: 10, selected: false, disabled: true },
-            /*{ hour: 11, selected: false, disabled: true },
-            { hour: 12, selected: false, disabled: true },
-            { hour: 13, selected: false, disabled: true },*/
             { hour: 14, selected: false, disabled: true }
         ],
         showTooltip: false,
@@ -41,16 +37,7 @@ export default {
     }),
     async created() {
 
-        const url = `https://api.openweathermap.org/data/2.5/forecast?`
-            + `lat=${Coords.lat}`
-            + `&lon=${Coords.lat}`
-            + `&units=metric`
-            + `&appid=${ApiKey}`
-
-        const res = await fetch('/test/weather.json')
-        const resolver = (resolve) => resolve()
-        await new Promise((resolve) => setTimeout(() => resolve(), 1000))
-        const data = await res.json()
+        const data = await weatherService.getWeather()
 
         const w = data.list.map(x => {
             let date = new Date(x.dt * 1000)
@@ -64,8 +51,7 @@ export default {
                 weekDay: dayName,
                 weather,
                 temp: x.main.temp,
-                selected: false,
-                disabled: /*x.main.temp < 14 || */weather == 'rainy'
+                selected: false
             }
         }).filter((val, idx, arr) => {
             if (idx == 0) return true
@@ -78,14 +64,39 @@ export default {
             Object.assign(this.days[i], w[i])
 
         this.loading = false
+        this.updateValidDays()
+        this.updateSelectedDate()
+    },
+    mounted() {
+        for (let time of this.times) {
+            if (this.bookingStore.selectedTime == time.hour)
+                time.selected = true
+        }
     },
     methods: {
+        updateValidDays() {
+            for (let day of this.days) {
+                day.disabled = day.temp < 14 || day.weather == 'rainy'
+            }
+        },
+        updateSelectedDate() {
+            for (let day of this.days) {
+                const month = day.date.getMonth()
+                const dayOfMonth = day.date.getDate()
+                if (month == this.bookingStore.selectedMonth
+                    && dayOfMonth == this.bookingStore.selectedDay) {
+                    this.selectDay(day)
+                    break
+                }
+            }
+        },
         selectDay(day) {
-            // if (day.temp < 14) return
             for (const day of this.days) {
                 day.selected = false
             }
             day.selected = true
+            this.bookingStore.selectedMonth = day.date.getMonth()
+            this.bookingStore.selectedDay = day.date.getDate()
             const now = new Date()
             if (now.getMonth() == day.date.getMonth()
                 && now.getDate() == day.date.getDate()) {
@@ -101,6 +112,7 @@ export default {
             for (let t of this.times)
                 t.selected = false
             time.selected = true
+            this.bookingStore.selectedTime = time.hour
         },
         to12hour(hour) {
             const period = hour >= 12 ? 'PM' : 'AM'
@@ -108,7 +120,7 @@ export default {
             return `${hour} ${period}`
         },
         hoverDay(day) {
-            if (day.disabled) {
+            if (day.disabled && !this.loading) {
                 let weatherDesc = ''
                 if (day.temp < 14)
                     weatherDesc += 'cold'
@@ -129,10 +141,10 @@ export default {
         }
     },
     computed: {
-        hasValidTime() {
-            for (let day of this.days) {
-                if (day.temp < 14 || day.weather == 5) continue
-                return true
+        hasValidWeatherDay() {
+            for (const day of this.days) {
+                if (!day.disabled)
+                    return true
             }
             return false
         },
@@ -148,7 +160,7 @@ export default {
             <div style="margin-bottom: 1rem; display: flex">
                 <div style="width: 0px; flex-grow: 1">
                     <template v-if="loading">Loading the weather...</template>
-                    <template v-else-if="hasValidTime">Please select a date and time.</template>
+                    <template v-else-if="hasValidWeatherDay">Please select a date and time.</template>
                     <template v-else>
                         Due to the weather, there are currently
                         no available departure times.
@@ -175,12 +187,10 @@ export default {
                 >
                     {{ to12hour(time.hour) }}
                 </button>
-                <!--<button class="time" disabled>10 AM</button>
-                <button class="time" disabled>2 PM</button>-->
             </div>
             <div style="display: grid; margin-top: 1rem">
                 <button
-                    @click="store.nextStep()"
+                    @click="bookingStore.next()"
                     :disabled="!canContinue"
                 >
                     Continue

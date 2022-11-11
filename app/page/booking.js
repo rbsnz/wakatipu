@@ -1,11 +1,8 @@
 import { useBookingStore } from '../stores/booking.js'
 
 export default {
-    setup() {
-        return { store: useBookingStore() }
-    },
-    data: () => ({
-        step: 0
+    setup: () => ({
+        store: useBookingStore()
     }),
     template: /*html*/`
         <div class="glass-container">
@@ -14,7 +11,10 @@ export default {
                     <DateSelector />
                 </div>
                 <div v-else-if="store.step == 1">
-                    <Seats />
+                    <BoatSelector />
+                </div>
+                <div v-else-if="store.step == 2">
+                    <SeatSelector />
                 </div>
             </Transition>
         </div>
