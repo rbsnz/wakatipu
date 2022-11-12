@@ -1,5 +1,8 @@
+import Booking from './page/booking.js'
+
 export default {
     template: /*html*/`
+        <!-- Header -->
         <header>
             <div class="title">
                 <router-link to="/" class="title-link">
@@ -9,9 +12,15 @@ export default {
             <nav>
             </nav>
         </header>
+        <!-- Main content -->
         <main class="centered">
-            <router-view></router-view>
+            <router-view v-slot="{ Component }">
+                <transition name="v" mode="out-in">
+                    <component :is="Component" />
+                </transition>
+            </router-view>
         </main>
+        <!-- Footer -->
         <footer>
             <ul>
                 <li>Documentation</li>
