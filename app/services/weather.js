@@ -1,4 +1,5 @@
-const API_KEY = '0c2babeae2af2e14fd58214c0fd330fa'
+import { API_KEY } from './weather-key.js'
+
 const LAT = -45.05
 const LON = 168.5
 
@@ -14,9 +15,6 @@ const weatherService = {
                 + `&appid=${API_KEY}`
         }
 
-        // -36.848461, and the longitude is 174.763336
-        // https://api.openweathermap.org/data/2.5/forecast?lat=-36.848461&lon=174.763336&units=metric&appid=0c2babeae2af2e14fd58214c0fd330fa
-
         if (TEST) {
             url = '/test/weather-auckland.json'
             await new Promise((resolve) => setTimeout(() => resolve(), 1500))
@@ -24,6 +22,39 @@ const weatherService = {
         
         const res = await fetch(url)
         return await res.json()
+    },
+    getWeatherType(id) {
+        switch (Math.floor(id / 100)) {
+            case 2: return 'Thunderstorm'
+            case 3: return 'Showers'
+            case 5: return 'Rain'
+            case 6: return 'Snow'
+            case 7: switch (id) {
+                case 701: return 'Mist'
+                case 711: return 'Smoke'
+                case 721: return 'Haze'
+                case 731: return 'Dust'
+                case 741: return 'Fog'
+                case 751: return 'Sand'
+                case 761: return 'Dust'
+                case 762: return 'Ash'
+                case 771: return 'Squall'
+                case 781: return 'Tornado'
+            }
+            case 8: return id == 800 ? 'Clear' : 'Clouds'
+        }
+        return 'Unknown'
+    },
+    getWeatherDescription(id) {
+        
+    },
+    getWeatherImage(id) {
+        const urlBase = '/media/amcharts_weather_icons_1.0.0/animated/'
+        let fileName = null
+        switch (Math.floor(id / 100)) {
+            case 2: fileName = 'thunder.svg'; break
+            
+        }
     }
 }
 
