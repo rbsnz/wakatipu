@@ -219,25 +219,25 @@ video {
 }
 
 .sunny {
-    background-image: url(/media/amcharts_weather_icons_1.0.0/animated/day.svg);
+    background-image: url(../media/amcharts_weather_icons_1.0.0/animated/day.svg);
     background-size: 24rem;
     background-position-y: -8rem;
 }
 
 .cloudy {
-    background-image: url(/media/amcharts_weather_icons_1.0.0/animated/cloudy.svg);
+    background-image: url(../media/amcharts_weather_icons_1.0.0/animated/cloudy.svg);
     background-position-x: -3.3rem;
     background-position-y: -2.4rem;
 }
 
 .showers {
-    background-image: url(/media/amcharts_weather_icons_1.0.0/animated/rainy-1.svg);
+    background-image: url(../media/amcharts_weather_icons_1.0.0/animated/rainy-1.svg);
     background-position-x: -1.4rem;
     background-position-y: -3rem;
 }
 
 .rainy {
-    background-image: url(/media/amcharts_weather_icons_1.0.0/animated/rainy-6.svg);
+    background-image: url(../media/amcharts_weather_icons_1.0.0/animated/rainy-6.svg);
     background-position-x: -2.8rem;
     background-position-y: -4.4rem;
 }
