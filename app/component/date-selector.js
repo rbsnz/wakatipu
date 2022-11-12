@@ -148,6 +148,9 @@ export default {
             }
             return false
         },
+        hasSelectedDay() {
+            return this.days.some(x => !x.disabled && x.selected)
+        },
         canContinue() {
             return (
                 this.days.filter(x => x.selected && !x.disabled).length > 0 &&
@@ -156,46 +159,58 @@ export default {
         }
     },
     template: /*html*/`
-        <div class="glass-container" style="display: flex; flex-direction: column">
-            <Tooltip :visible="showTooltip">{{tooltipContent}}</Tooltip>
-            <div style="margin-bottom: 1rem; display: flex">
-                <div style="width: 0px; flex-grow: 1">
-                    <template v-if="loading">Loading the weather...</template>
-                    <template v-else-if="hasValidWeatherDay">Please select a date and time.</template>
-                    <template v-else>
-                        Due to the weather, there are currently
-                        no available departure times.
-                        Please check back later.
-                    </template>
+        <div>
+            <div class="glass-container" style="display: flex; flex-direction: column">
+                <Tooltip :visible="showTooltip">{{tooltipContent}}</Tooltip>
+                <div style="margin-bottom: 1rem; display: flex">
+                    <div style="width: 0px; flex-grow: 1">
+                        <template v-if="loading">Loading the weather...</template>
+                        <template v-else-if="hasValidWeatherDay">Please select a date and time.</template>
+                        <template v-else>
+                            Due to the weather, there are currently
+                            no available departure times.
+                            Please check back later.
+                            <router-link to="/game">Click here</router-link> to
+                            play a game while you wait!
+                        </template>
+                    </div>
+                </div>
+                <div class="weather-days" style="margin-bottom: 1rem">
+                    <WeatherDay
+                        v-for="day in days" v-bind="day"
+                        :loading="loading"
+                        @click="selectDay(day)"
+                        @pointerenter="hoverDay(day)"
+                        @pointerleave="unhover"
+                    />
+                </div>
+                <div class="times">
+                    <button
+                        class="time" v-for="time in times" v-bind="time"
+                        @pointerenter="hoverTime(time)"
+                        @pointerleave="unhover"
+                        @click="selectTime(time)"
+                        :class="{ selected: time.selected }"
+                        :disabled="!hasSelectedDay"
+                    >
+                        {{ to12hour(time.hour) }}
+                    </button>
+                </div>
+                <div style="display: grid; margin-top: 1rem">
+                    <button
+                        @click="bookingStore.next()"
+                        :disabled="!canContinue"
+                    >
+                        Continue
+                    </button>
                 </div>
             </div>
-            <div class="weather-days" style="margin-bottom: 1rem">
-                <WeatherDay
-                    v-for="day in days" v-bind="day"
-                    :loading="loading"
-                    @click="selectDay(day)"
-                    @pointerenter="hoverDay(day)"
-                    @pointerleave="unhover"
-                />
-            </div>
-            <div class="times">
-                <button
-                    class="time" v-for="time in times" v-bind="time"
-                    @pointerenter="hoverTime(time)"
-                    @pointerleave="unhover"
-                    @click="selectTime(time)"
-                    :class="{ selected: time.selected }"
-                >
-                    {{ to12hour(time.hour) }}
-                </button>
-            </div>
-            <div style="display: grid; margin-top: 1rem">
-                <button
-                    @click="bookingStore.next()"
-                    :disabled="!canContinue"
-                >
-                    Continue
-                </button>
+            <!-- OpenWeather attribution -->
+            <div style="font-size: 1.2rem; display: flex; flex-direction: row; align-items: center; justify-content: center;">
+                <div style="opacity: 0.8">Weather data provided by</div>
+                <a href="https://openweathermap.org/" class="no-line">
+                    <img src="/media/OpenWeather-Negative-Logo RGB.png" style="max-width: 8rem">
+                </a>
             </div>
         </div>
     `
