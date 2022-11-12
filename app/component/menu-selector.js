@@ -40,7 +40,7 @@ export default {
                     class="menu-item"
                 >
                     <!-- Image -->
-                    <div class="menu-image" :style="{ backgroundImage: \`url(/media/menu/$\{item.image})\` }"></div>
+                    <div class="menu-image" :style="{ backgroundImage: \`url(media/menu/$\{item.image})\` }"></div>
                     <!-- Description -->
                     <div class="menu-item-info">
                         <div class="menu-item-name">

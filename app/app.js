@@ -24,15 +24,15 @@ export default {
         <footer>
             <ul>
                 <li>Documentation</li>
-                <li><a href="/documentation/part1.pdf" target="_blank">Part 1</a></li>
-                <li><a href="/documentation/part2.pdf" target="_blank">Part 2</a></li>
+                <li><a href="documentation/part1.pdf" target="_blank">Part 1</a></li>
+                <li><a href="documentation/part2.pdf" target="_blank">Part 2</a></li>
             </ul>
         </footer>
         <!-- Background video -->
         <div class="bg-video-container">
             <video loop muted disablePictureInPicture autoplay playbackRate="0.75">
                 <source
-                    src="/media/drone-flying-over-a-lake-with-a-smooth-surface-3259896.mp4"
+                    src="media/drone-flying-over-a-lake-with-a-smooth-surface-3259896.mp4"
                     type="video/mp4"
                 >
             </video>

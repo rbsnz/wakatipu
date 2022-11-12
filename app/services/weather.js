@@ -3,8 +3,6 @@ const API_KEY = '45ea75cf794e6c40833db5e3e8b69a6f'
 const LAT = -45.05
 const LON = 168.5
 
-const TEST = true
-
 const weatherService = {
     async getWeather(url = null) {
         if (!url) {
@@ -15,7 +13,7 @@ const weatherService = {
                 + `&appid=${API_KEY}`
         }
 
-        if (TEST) {
+        if (localStorage.getItem('test_wakatipu')) {
             url = '/test/weather-auckland.json'
             await new Promise((resolve) => setTimeout(() => resolve(), 1500))
         }
