@@ -5,7 +5,7 @@ export default {
         <!-- Header -->
         <header>
             <div class="title">
-                <router-link to="/" class="title-link">
+                <router-link to="/" class="title-link no-line">
                     Wakatipu Boat Adventure
                 </router-link>
             </div>

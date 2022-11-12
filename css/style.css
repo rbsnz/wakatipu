@@ -57,13 +57,20 @@ footer > ul {
 /* Default styles */
 
 a {
+    display: inline-block;
     color: white;
     text-decoration: none;
+    transition:
+        border 0.2s,
+        text-shadow 0.2s;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
 }
 
 a:hover {
-    text-decoration: underline;
+    text-shadow: 0 0 1rem white;
 }
+
+a.no-line { border: none; }
 
 /* Common */
 .tooltip-container {
