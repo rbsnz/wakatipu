@@ -53,8 +53,34 @@ const weatherService = {
         let fileName = null
         switch (Math.floor(id / 100)) {
             case 2: fileName = 'thunder.svg'; break
-            
+            case 3: fileName = 'rainy-5.svg'; break
+            case 5: // Rain
+                switch (id) {
+                    case 500: fileName = 'rainy-1.svg'; break
+                    case 501: fileName = 'rainy-2.svg'; break
+                    case 502: fileName = 'rainy-3.svg'; break
+                    case 503: fileName = 'rainy-4.svg'; break
+                    case 504: fileName = 'rainy-5.svg'; break
+                    default: fileName = 'rainy-6.svg'; break
+                }
+                break
+            case 6: // Snow
+                fileName = 'snowy-6.svg'
+                break
+            case 7: break
+            case 8:
+                switch (id) {
+                    case 800: fileName = 'day.svg'; break
+                    case 801: fileName = 'cloudy-day-1.svg'; break
+                    case 802: fileName = 'cloudy-day-2.svg'; break
+                    case 803: fileName = 'cloudy-day-3.svg'; break
+                    case 804: fileName = 'cloudy.svg'; break
+                }
+                break
         }
+        if (!fileName)
+            return undefined
+        return `${urlBase}${fileName}`
     }
 }
 
