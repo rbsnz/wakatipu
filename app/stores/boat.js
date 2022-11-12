@@ -1,14 +1,13 @@
-function calculatePrice(rowNum) {
-    if (rowNum <= 2) return 30
-    else if (rowNum <= 5) return 25
-    else return 20
-}
-
 export const useBoatStore = Pinia.defineStore('boat', {
     state: () => ({
         boats: []
     }),
     actions: {
+        calculatePrice(rowNum) {
+            if (rowNum <= 2) return 30
+            else if (rowNum <= 5) return 25
+            else return 20
+        },
         async loadBoats() {
             if (!this.boats || !this.boats.length) {
                 // Load the xml and convert it into a javascript object ...
@@ -30,7 +29,7 @@ export const useBoatStore = Pinia.defineStore('boat', {
                                 id: `${xmlRow.getAttribute('id')}${seatNum}`,
                                 row: rowNum,
                                 col: parseInt(xmlSeat.getAttribute('col')),
-                                price: calculatePrice(rowNum),
+                                price: this.calculatePrice(rowNum),
                                 available: xmlSeat.getAttribute('booked') != '1'
                             })
                             seatNum++
