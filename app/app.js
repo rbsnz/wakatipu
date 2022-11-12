@@ -24,8 +24,8 @@ export default {
         <footer>
             <ul>
                 <li>Documentation</li>
-                <li><a href="/documentation/part1.pdf">Part 1</a></li>
-                <li><a href="/documentation/part2.pdf">Part 2</a></li>
+                <li><a href="/documentation/part1.pdf" target="_blank">Part 1</a></li>
+                <li><a href="/documentation/part2.pdf" target="_blank">Part 2</a></li>
             </ul>
         </footer>
         <!-- Background video -->

@@ -208,7 +208,7 @@ export default {
             <!-- OpenWeather attribution -->
             <div style="font-size: 1.2rem; display: flex; flex-direction: row; align-items: center; justify-content: center;">
                 <div style="opacity: 0.8">Weather data provided by</div>
-                <a href="https://openweathermap.org/" class="no-line">
+                <a href="https://openweathermap.org/" target="_blank" class="no-line">
                     <img src="/media/OpenWeather-Negative-Logo RGB.png" style="max-width: 8rem">
                 </a>
             </div>
