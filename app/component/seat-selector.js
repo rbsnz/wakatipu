@@ -61,7 +61,8 @@ export default {
         },
         hoverSeat(seat, e) {
             this.hoveringSeat = seat
-            this.$refs.tt.onMouseMove(e)
+            if (this.$refs.tt)
+                this.$refs.tt.onMouseMove(e)
         },
         unhover() {
             this.hoveringSeat = null
