@@ -1,3 +1,24 @@
+const itemTypes = {
+    'V': {
+        id: 'V',
+        name: 'Vegetarian'
+    },
+    'GF': {
+        id: 'GF',
+        name: 'Gluten Free'
+    },
+    'EF': {
+        id: 'EF',
+        name: 'Egg Free'
+    }
+}
+
+const unknownItemType = { id: '?', name: '?' }
+
+const toItemTypes = (s) => {
+    if (!s) return []
+    return s.split(',').map(x => itemTypes[x] || unknownItemType)
+}
 
 export const useMenuStore = Pinia.defineStore('menu', {
     state: () => ({
@@ -6,7 +27,7 @@ export const useMenuStore = Pinia.defineStore('menu', {
     actions: {
         async load() {
             if (this.items && this.items.length) return
-            
+
             const res = await fetch('/data/menu.xml')
             const xml = await res.text()
 
@@ -16,7 +37,13 @@ export const useMenuStore = Pinia.defineStore('menu', {
 
             for (let xmlItem of xmlMenuItems) {
                 this.items.push({
-                    name: xmlItem.querySelector('name').textContent
+                    id: xmlItem.getAttribute('id'),
+                    name: xmlItem.querySelector('name').textContent,
+                    description: xmlItem.querySelector('description').textContent,
+                    image: xmlItem.querySelector('image').textContent,
+                    price: parseFloat(xmlItem.querySelector('price').textContent),
+                    types: toItemTypes(xmlItem.querySelector('type')?.textContent),
+                    count: 0
                 })
             }
         }

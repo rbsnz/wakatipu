@@ -1,15 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <menu>
-    <item id="0">
-        <name>Menu item 1</name>
-        <description>Menu item 1 description</description>
-        <image></image>
-        <price>10</price>
+    <item id="ham_sw">
+        <name>Ham Sandwich</name>
+        <description>A ham, lettuce &amp; tomato sandwich made with fresh wholemeal bread.</description>
+        <image>pexels-suzy-hazelwood-1209029.jpg</image>
+        <price>5.5</price>
+        <type>EF</type>
     </item>
-    <item id="1">
-        <name>Menu item 2</name>
-        <description>Menu item 2 description</description>
-        <image></image>
-        <price>11.5</price>
+    <item id="vege_salad">
+        <name>Vege Salad</name>
+        <description>Carrot, broccoli, brussel sprouts, zucchini &amp; bell pepper salad served with couscous.</description>
+        <image>pexels-ella-olsson-1640777.jpg</image>
+        <price>10.5</price>
+        <type>EF,V</type>
+    </item>
+    <item id="pasta">
+        <name>Tomato Pasta</name>
+        <description>A delicious tomato &amp; basil pasta.</description>
+        <price>12</price>
+        <type>V</type>
+        <image>pexels-lisa-fotios-1279330.jpg</image>
+    </item>
+    <item id="fish_n_chips">
+        <name>Fish &amp; Chips</name>
+        <description>Fish &amp; chips served with tartare sauce and a cucumber, lettuce, tomato &amp; onion salad.</description>
+        <image>pexels-suzy-hazelwood-2966196.jpg</image>
+        <price>13.5</price>
+        <type></type>
+    </item>
+    <item id="beef_burger">
+        <name>Beef Burger</name>
+        <description>Beef &amp; bacon burger with lettuce, tomato, cheese &amp; mayo.</description>
+        <image>pexels-valeria-boltneva-1639557.jpg</image>
+        <price>13.5</price>
+        <type></type>
+    </item>
+    <item id="chicken_salad">
+        <name>Chicken Salad</name>
+        <description>Fried chicken and baked potato wedges served with a cucumber, tomato &amp; red onion salad.</description>
+        <image>pexels-dmitriy-ganin-7538053.jpg</image>
+        <price>15.5</price>
+        <type>EF,GF</type>
     </item>
 </menu>
