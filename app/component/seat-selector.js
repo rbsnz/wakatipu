@@ -68,6 +68,7 @@ export default {
         }
     },
     computed: {
+        canContinue() { return this.seats.some(x => x.selected) },
         selectedSeats() { return this.seats.filter(x => x.selected) },
         totalPrice() {
              return this.selectedSeats.length
@@ -103,7 +104,7 @@ export default {
             </div>
             <div class="uniform-grid-columns">
                 <button @click="bookingStore.back()">Back</button>
-                <button @click="bookingStore.next()">Continue</button>
+                <button @click="bookingStore.next()" :disabled="!canContinue">Continue</button>
             </div>
         </div>
     `
