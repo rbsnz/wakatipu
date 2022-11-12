@@ -1,4 +1,4 @@
-import { API_KEY } from './weather-key.js'
+const API_KEY = '45ea75cf794e6c40833db5e3e8b69a6f'
 
 const LAT = -45.05
 const LON = 168.5
