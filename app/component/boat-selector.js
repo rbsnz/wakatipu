@@ -31,7 +31,7 @@ export default {
         }
     },
     template: /*html*/`
-        <div style="margin: 1rem; font-size: 2rem">
+        <div class="glass-container">
             <div style="margin-bottom: 1rem; display: flex">Please select a boat.</div>
             <div class="uniform-grid-columns" style="margin-bottom: 1rem">
                 <button v-for="boat in boats" @click="selectBoat(boat)" :class="{ selected: boat.selected }">

@@ -14,9 +14,7 @@ export default {
         seats: [],
         loading: true,
         error: null,
-        hover: null,
-        hoverX: 0,
-        hoverY: 0
+        hoveringSeat: null
     }),
     async created() {
         const boats = await this.boatStore.loadBoats()
@@ -30,8 +28,6 @@ export default {
         for (let seat of this.seats) {
             seat.selected = this.bookingStore.selectedSeats.includes(seat.id)
         }
-
-        console.log(this.seats)
 
         this.loading = false
     },
@@ -53,7 +49,7 @@ export default {
         seatClicked(seat) {
             if (!seat.available) return;
             seat.selected = !seat.selected;
-            const arr = []
+            
             const index = this.bookingStore.selectedSeats.indexOf(seat.id)
             if (seat.selected) {
                 if (index == -1)
@@ -63,20 +59,15 @@ export default {
                     this.bookingStore.selectedSeats.splice(index, 1)
             }
         },
-        mouseEnter(seat) {
-            this.hover = seat
+        hoverSeat(seat, e) {
+            this.hoveringSeat = seat
+            this.$refs.tt.onMouseMove(e)
         },
-        mouseMove(/** @type{MouseEvent} */e) {
-            this.hoverX = e.target.offsetLeft + e.offsetX + 16
-            this.hoverY = e.target.offsetTop + e.offsetY + 16
-        },
-        mouseLeave() {
-            this.hover = null
+        unhover() {
+            this.hoveringSeat = null
         }
     },
     computed: {
-        popupX() { return `${this.hoverX}px` },
-        popupY() { return `${this.hoverY}px` },
         selectedSeats() { return this.seats.filter(x => x.selected) },
         totalPrice() {
              return this.selectedSeats.length
@@ -85,8 +76,12 @@ export default {
         }
     },
     template: /*html*/`
-        <div>
-            <h2 :style="{ textAlign: 'center', margin: '8px', fontSize: '2rem' }">Please select your seats.</h2>
+        <div class="glass-container">
+            <Tooltip ref="tt" :visible="hoveringSeat != null">
+                <div v-if="hoveringSeat.available">Price: $\{{ hoveringSeat.price }}</div>
+                <div v-else>This seat is unavailable.</div>
+            </Tooltip>
+            <h2 style=" margin-bottom: 1rem; font-size: 2rem; text-align: center">Please select your seats.</h2>
             <div class="seats" :style="{ gridTemplateColumns: \`repeat($\{cols}, 1fr)\` }">
                 <div v-if="loading">Loading...</div>
                 <div v-if="error">{{ error }}</div>
@@ -94,12 +89,11 @@ export default {
                     v-if="seats"
                     v-for="seat in seats" v-bind="seat"
                     @clicked="seatClicked(seat)"
-                    @pointerenter="mouseEnter(seat)"
-                    @pointermove="mouseMove"
-                    @pointerleave="mouseLeave"
+                    @pointerenter="(e) => hoverSeat(seat, e)"
+                    @pointerleave="unhover"
                 />
             </div>
-            <div class="seat-info" :style="{ marginBottom: '1rem' }">
+            <div class="seat-info" style="margin-bottom: 1rem">
                 <div>
                     Selected seats: {{ seats.filter(x => x.selected).length }}
                 </div>
@@ -107,11 +101,7 @@ export default {
                     Total price: $\{{totalPrice}}
                 </div>
             </div>
-            <div v-if="hover" class="seat-popup" :style="{ left: popupX, top: popupY }">
-                <div v-if="hover.available">Price: $\{{ hover.price }}</div>
-                <div v-else>This seat is unavailable.</div>
-            </div>
-            <div style="margin: 1rem" class="uniform-grid-columns">
+            <div class="uniform-grid-columns">
                 <button @click="bookingStore.back()">Back</button>
                 <button @click="bookingStore.next()">Continue</button>
             </div>

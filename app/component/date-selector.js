@@ -156,7 +156,8 @@ export default {
         }
     },
     template: /*html*/`
-        <div style="display: flex; flex-direction: column; margin: 1rem; font-size: 2rem">
+        <div class="glass-container" style="display: flex; flex-direction: column">
+            <Tooltip :visible="showTooltip">{{tooltipContent}}</Tooltip>
             <div style="margin-bottom: 1rem; display: flex">
                 <div style="width: 0px; flex-grow: 1">
                     <template v-if="loading">Loading the weather...</template>
@@ -197,6 +198,5 @@ export default {
                 </button>
             </div>
         </div>
-        <Tooltip :visible="showTooltip">{{tooltipContent}}</Tooltip>
     `
 }
