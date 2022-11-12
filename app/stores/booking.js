@@ -3,7 +3,7 @@ const { useStorage } = VueUse
 export const useBookingStore = Pinia.defineStore('booking', {
     state: () => ({
         transitioning: false,
-        step: 3,
+        step: 0,
         selectedMonth: useStorage('bookingMonth', null),
         selectedDay: useStorage('bookingDay', null),
         selectedTime: useStorage('bookingTime', 0),
