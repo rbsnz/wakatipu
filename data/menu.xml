@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <menu>
-
+    <item id="0">
+        <name>Menu item 1</name>
+        <description>Menu item 1 description</description>
+        <image></image>
+        <price>10</price>
+    </item>
+    <item id="1">
+        <name>Menu item 2</name>
+        <description>Menu item 2 description</description>
+        <image></image>
+        <price>11.5</price>
+    </item>
 </menu>
