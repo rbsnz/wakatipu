@@ -4,25 +4,25 @@
         <image>pexels-matheus-guimarães-662374.jpg</image>
         <seats rows="9" cols="9">
             <row id="A">
-                <seat col="2" booked="1" />
+                <seat col="2" />
                 <seat col="3" />
                 <seat col="4" />
-                <seat col="6" booked="1" />
-                <seat col="7" booked="1" />
-                <seat col="8" booked="1" />
+                <seat col="6" />
+                <seat col="7" />
+                <seat col="8" />
             </row>
             <row id="B">
                 <seat col="2" />
                 <seat col="3" />
                 <seat col="4" />
-                <seat col="6" booked="1" />
+                <seat col="6" />
                 <seat col="7" />
                 <seat col="8" />
             </row>
             <row id="C">
-                <seat col="1" booked="1" />
-                <seat col="2" booked="1" />
-                <seat col="3" booked="1" />
+                <seat col="1" />
+                <seat col="2" />
+                <seat col="3" />
                 <seat col="4" />
                 <seat col="6" />
                 <seat col="7" />
@@ -34,14 +34,14 @@
                 <seat col="2" />
                 <seat col="3" />
                 <seat col="4" />
-                <seat col="6" booked="1" />
-                <seat col="7" booked="1" />
-                <seat col="8" booked="1" />
+                <seat col="6" />
+                <seat col="7" />
+                <seat col="8" />
                 <seat col="9" />
             </row>
             <row id="E">
-                <seat col="1" booked="1" />
-                <seat col="2" booked="1" />
+                <seat col="1" />
+                <seat col="2" />
                 <seat col="3" />
                 <seat col="4" />
                 <seat col="6" />
@@ -61,13 +61,13 @@
             </row>
             <row id="G">
                 <seat col="1" />
-                <seat col="2" booked="1" />
+                <seat col="2" />
                 <seat col="3" />
                 <seat col="4" />
                 <seat col="6" />
-                <seat col="7" booked="1" />
-                <seat col="8" booked="1" />
-                <seat col="9" booked="1" />
+                <seat col="7" />
+                <seat col="8" />
+                <seat col="9" />
             </row>
             <row id="H">
                 <seat col="1" />

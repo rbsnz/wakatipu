@@ -5,6 +5,9 @@ import Seat from './component/seat.js'
 import DateSelector from './component/date-selector.js'
 import WeatherDay from './component/weather-day.js'
 import MenuSelector from './component/menu-selector.js'
+import Confirmation from './component/confirmation.js'
+import Confirmed from './component/confirmed.js'
+
 import Tooltip from './component/tooltip.js'
 import Game from '../game/game.js'
 
@@ -20,6 +23,8 @@ app
     .component('WeatherDay', WeatherDay)
     .component('SeatSelector', SeatSelector)
     .component('MenuSelector', MenuSelector)
+    .component('Confirmation', Confirmation)
+    .component('Confirmed', Confirmed)
     .component('Seat', Seat)
     .component('Game', Game)
     .use(pinia)

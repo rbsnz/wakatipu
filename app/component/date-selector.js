@@ -1,29 +1,16 @@
+import { toDateString } from '../util/time.js'
 import { useBookingStore } from '../stores/booking.js'
-
 import weatherService from '../services/weather.js'
-
-const DayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
-
-function getWeatherType(id) {
-    let group = Math.floor(id / 100)
-    switch (group) {
-        case 2: return 'thunder'
-        case 3: return 'shower'
-        case 5: return 'rainy'
-        case 6: return 'snowy'
-        case 7: return 'misty'
-        case 8: return id == 800 ? 'sunny' : 'cloudy'
-    }
-}
 
 export default {
     data: () => ({
-        bookingStore: useBookingStore(),
+        store: useBookingStore(),
         loading: true,
         days: Array.from({ length: 5 }, _ => ({
             day: 0,
             weekDay: '',
-            weather: '',
+            weatherId: 0,
+            weatherType: 'xx',
             temp: 0,
             selected: false,
             disabled: true
@@ -36,32 +23,10 @@ export default {
         tooltipContent: ''
     }),
     async created() {
-
-        const data = await weatherService.getWeather()
-
-        const w = data.list.map(x => {
-            let date = new Date(x.dt * 1000)
-            let dayNum = date.getDate()
-            let dayOfWeek = date.getDay()
-            let dayName = DayNames[dayOfWeek]
-            let weather = getWeatherType(x.weather[0].id)
-            return {
-                date: date,
-                day: dayNum,
-                weekDay: dayName,
-                weather,
-                temp: x.main.temp,
-                selected: false
-            }
-        }).filter((val, idx, arr) => {
-            if (idx == 0) return true
-            if (val.date.getDate() == arr[idx-1].date.getDate())
-                return false
-            return true
-        }).slice(0, 5)
+        const weather = await weatherService.getWeather()
 
         for (let i = 0; i < this.days.length; i++)
-            Object.assign(this.days[i], w[i])
+            Object.assign(this.days[i], weather[i])
 
         this.loading = false
         this.updateValidDays()
@@ -69,22 +34,19 @@ export default {
     },
     mounted() {
         for (let time of this.times) {
-            if (this.bookingStore.selectedTime == time.hour)
+            if (this.store.selectedTime == time.hour)
                 time.selected = true
         }
     },
     methods: {
         updateValidDays() {
             for (let day of this.days) {
-                day.disabled = day.temp < 14 || day.weather == 'rainy'
+                day.disabled = day.temp < 14 || day.weatherType == 'rainy'
             }
         },
         updateSelectedDate() {
             for (let day of this.days) {
-                const month = day.date.getMonth()
-                const dayOfMonth = day.date.getDate()
-                if (month == this.bookingStore.selectedMonth
-                    && dayOfMonth == this.bookingStore.selectedDay) {
+                if (this.store.selectedDate == toDateString(day.date)) {
                     this.selectDay(day)
                     break
                 }
@@ -95,11 +57,10 @@ export default {
                 day.selected = false
             }
             day.selected = true
-            this.bookingStore.selectedMonth = day.date.getMonth()
-            this.bookingStore.selectedDay = day.date.getDate()
+            const dateString = toDateString(day.date)
+            this.store.selectedDate = toDateString(day.date)
             const now = new Date()
-            if (now.getMonth() == day.date.getMonth()
-                && now.getDate() == day.date.getDate()) {
+            if (dateString == toDateString(now)) {
                 for (let time of this.times) {
                     time.disabled = now.getHours() >= time.hour
                 }
@@ -107,12 +68,13 @@ export default {
                 for (let time of this.times)
                     time.disabled = false
             }
+
         },
         selectTime(time) {
             for (let t of this.times)
                 t.selected = false
             time.selected = true
-            this.bookingStore.selectedTime = time.hour
+            this.store.selectedTime = time.hour
         },
         to12hour(hour) {
             const period = hour >= 12 ? 'PM' : 'AM'
@@ -156,6 +118,9 @@ export default {
                 this.days.filter(x => x.selected && !x.disabled).length > 0 &&
                 this.times.filter(x => x.selected && !x.disabled).length > 0
             )
+        },
+        isUsingLiveWeather() {
+            return !localStorage.getItem('wakatipuUseRandomWeather')
         }
     },
     template: /*html*/`
@@ -191,14 +156,14 @@ export default {
                         @pointerleave="unhover"
                         @click="selectTime(time)"
                         :class="{ selected: time.selected }"
-                        :disabled="!hasSelectedDay"
+                        :disabled="!hasSelectedDay || time.disabled"
                     >
                         {{ to12hour(time.hour) }}
                     </button>
                 </div>
                 <div style="display: grid; margin-top: 1rem">
                     <button
-                        @click="bookingStore.next()"
+                        @click="store.next()"
                         :disabled="!canContinue"
                     >
                         Continue
@@ -206,7 +171,7 @@ export default {
                 </div>
             </div>
             <!-- OpenWeather attribution -->
-            <div style="font-size: 1.2rem; display: flex; flex-direction: row; align-items: center; justify-content: center;">
+            <div v-if="isUsingLiveWeather" style="font-size: 1.2rem; display: flex; flex-direction: row; align-items: center; justify-content: center;">
                 <div style="opacity: 0.8">Weather data provided by</div>
                 <a href="https://openweathermap.org/" target="_blank" class="no-line">
                     <img src="media/OpenWeather-Negative-Logo RGB.png" style="max-width: 8rem">

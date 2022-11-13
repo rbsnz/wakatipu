@@ -1,24 +1,24 @@
 import { useBookingStore } from '../stores/booking.js'
-import { useMenuStore } from '../stores/menu.js'
 
 export default {
-    setup: () => ({
-        bookingStore: useBookingStore(),
-        menuStore: useMenuStore()
-    }),
     data: () => ({
+        store: useBookingStore(),
         loading: true,
         tooltipText: '',
         showTooltip: false
     }),
     async mounted() {
-        await this.menuStore.load()
+        await this.store.loadMenu()
         this.loading = false
     },
     computed: {
         totalPrice() {
-            if (!this.menuStore.items.length) return 0
-            return this.menuStore.items.map(item => item.price * item.count).reduce((a, b) => a + b)
+            if (!this.store.menuItems) return 0
+            const values = Object.values(this.store.menuItems)
+            if (!values.length) return 0
+            return Object.values(this.store.menuItems)
+                .map(item => item.price * item.count)
+                .reduce((a,b) => a+b)
         }
     },
     methods: {
@@ -36,7 +36,7 @@ export default {
             <div style="margin-bottom: 1rem">Please select any meals or refreshments you would like during your trip.</div>
             <div class="menu-items" style="margin-bottom: 1rem">
                 <div
-                    v-for="item of menuStore.items"
+                    v-for="item in store.menuItems"
                     class="menu-item"
                 >
                     <!-- Image -->
@@ -63,15 +63,15 @@ export default {
                             <button
                                 class="menu-item-step-btn"
                                 :disabled="!item.count || item.count == 0"
-                                @click="item.count--"
+                                @click="store.removeMenuItem(item)"
                             >
                                 -
                             </button>
                             <div>{{ item.count || 0 }}</div>
                             <button
                                 class="menu-item-step-btn"
-                                :disabled="item.count == 10"
-                                @click="item.count++"
+                                :disabled="item.count >= store.maxMenuItems"
+                                @click="store.addMenuItem(item)"
                             >
                                 +
                             </button>
@@ -86,8 +86,8 @@ export default {
                 Total: $\{{ totalPrice.toFixed(2) }}
             </div>
             <div class="uniform-grid-columns">
-                <button @click="bookingStore.back()">Back</button>
-                <button @click="bookingStore.next()">Continue</button>
+                <button @click="store.back()">Back</button>
+                <button @click="store.next()">Continue</button>
             </div>
         </div>
     `

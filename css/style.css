@@ -73,6 +73,7 @@ a:hover {
 a.no-line { border: none; }
 
 /* Common */
+
 .tooltip-container {
     position: fixed;
     top: 0;
@@ -413,6 +414,28 @@ video {
     padding: 0 0.5rem;
 }
 
+/* Confirmation */
+
+.confirmation {
+    padding: 1rem;
+    margin: 1rem 0;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+.confirmation > :nth-child(2n+1) {
+    font-weight: bold;
+    justify-self: end;
+}
+
+button.confirm {
+    background-color: rgba(0, 255, 0, 0.2);
+}
+
+button.confirm:hover {
+    background-color: rgba(0, 255, 0, 0.3);
+}
+
 /* Game */
 
 .game-canvas:focus {
@@ -475,4 +498,10 @@ button:focus {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+/* Media */
+
+@media only screen and (max-width: 800px) {
+    html { font-size: 50%; }
 }

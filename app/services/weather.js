@@ -1,25 +1,87 @@
-const API_KEY = '45ea75cf794e6c40833db5e3e8b69a6f'
+const ApiKey = '45ea75cf794e6c40833db5e3e8b69a6f'
 
-const LAT = -45.05
-const LON = 168.5
+const Coords = { lat: -45.05, lon: 168.5 }
 
-const weatherService = {
-    async getWeather(url = null) {
-        if (!url) {
-            url = `https://api.openweathermap.org/data/2.5/forecast?`
-                + `lat=${LAT}`
-                + `&lon=${LON}`
-                + `&units=metric`
-                + `&appid=${API_KEY}`
+const DayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+const RandomWeatherIds = [800, 801, 500]
+
+function getWeatherType(id) {
+    let group = Math.floor(id / 100)
+    switch (group) {
+        case 2: return 'thunder'
+        case 3: return 'shower'
+        case 5: return 'rainy'
+        case 6: return 'snowy'
+        case 7: return 'misty'
+        case 8: return id == 800 ? 'sunny' : 'cloudy'
+    }
+}
+
+const cacheInterval = 1000 * 60 * 10 // cache weather for 10 minutes
+let lastUpdate = null
+let cachedWeather = null
+
+export default {
+    async getWeather() {
+        const now = new Date()
+
+        if (cachedWeather && (now.getTime() - lastUpdate.getTime()) < cacheInterval) {
+            return cachedWeather
         }
 
-        if (localStorage.getItem('test_wakatipu')) {
-            url = '/test/weather-auckland.json'
+        if (localStorage.getItem('wakatipuUseRandomWeather')) {
             await new Promise((resolve) => setTimeout(() => resolve(), 1500))
+            lastUpdate = now
+            return (cachedWeather = this.getRandomWeather())
         }
         
+        const url = `https://api.openweathermap.org/data/2.5/forecast?`
+            + `lat=${Coords.lat}&lon=${Coords.lon}`
+            + `&units=metric&appid=${ApiKey}`
         const res = await fetch(url)
-        return await res.json()
+        const data = await res.json()
+
+        const list = []
+
+        let currentDate = null
+        for (const item of data.list) {
+            const date = new Date(item.dt * 1000)
+            const key = { month: date.getMonth(), day: date.getDate() }
+            if (currentDate == key) continue
+            currentDate = key
+            list.push({
+                date,
+                day: date.getDate(),
+                weekDay: DayNames[date.getDay()],
+                weatherId: item.weather[0].id,
+                weatherType: getWeatherType(item.weather[0].id),
+                temp: item.main.temp,
+                selected: false,
+                disabled: true
+            })
+        }
+
+        return (cachedWeather = list)
+    },
+    getRandomWeather() {
+        const now = Date.now()
+        const unitDay = 24 * 60 * 60 * 1000
+        const list = []
+        for (let i = 0; i < 5; i++) {
+            const date = new Date(now + i * unitDay)
+            const weatherId = RandomWeatherIds[Math.floor(Math.random() * RandomWeatherIds.length)]
+            list.push({
+                date: date,
+                day: date.getDate(),
+                weekDay: DayNames[date.getDay()],
+                weatherId,
+                weatherType: getWeatherType(weatherId),
+                temp: 10 + Math.random() * 10,
+                selected: false,
+                disabled: true
+            })
+        }
+        return list
     },
     getWeatherType(id) {
         switch (Math.floor(id / 100)) {
@@ -81,5 +143,3 @@ const weatherService = {
         return `${urlBase}${fileName}`
     }
 }
-
-export default weatherService

@@ -3,12 +3,13 @@ export default {
         selected: Boolean,
         day: Number,
         weekDay: String,
-        weather: String,
+        weatherId: Number,
+        weatherType: String,
         temp: Number,
         loading: Boolean
     },
     template: /*html*/`
-        <button class="weather-day" :class="[weather, { selected }]">
+        <button class="weather-day" :class="[weatherType, { selected }]">
             <div v-if="loading">
                 Loading...
             </div>

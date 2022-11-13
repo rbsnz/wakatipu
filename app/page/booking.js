@@ -9,6 +9,7 @@ export default {
             <SeatSelector v-else-if="store.step == 2" />
             <MenuSelector v-else-if="store.step == 3" />
             <Confirmation v-else-if="store.step == 4" />
+            <Confirmed v-else-if="store.step == 5" />
         </Transition>
     `
 }

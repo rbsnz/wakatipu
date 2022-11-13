@@ -1,62 +1,41 @@
 import { useBookingStore } from '../stores/booking.js'
-import { useBoatStore } from '../stores/boat.js'
 
 export default {
-    setup() {
-        return {
-            bookingStore: useBookingStore(),
-            boatStore: useBoatStore()
-        }
-    },
     data: () => ({
+        store: useBookingStore(),
         cols: 0,
         rows: 0,
-        seats: [],
+        seats: {},
         loading: true,
         error: null,
         hoveringSeat: null
     }),
     async created() {
-        const boats = await this.boatStore.loadBoats()
-        const boat = boats.filter(boat => boat.id.toLowerCase() == this.bookingStore.selectedBoat.toLowerCase())[0]
+        await this.store.loadBoats()
+        const boat = Object.values(this.store.boats)
+            .filter(boat => boat.id.toLowerCase() == this.store.selectedBoat.toLowerCase())[0]
 
         this.rows = boat.rows
         this.cols = boat.cols
-
         this.seats = boat.seats
 
-        for (let seat of this.seats) {
-            seat.selected = this.bookingStore.selectedSeats.includes(seat.id)
-        }
+        for (let seat of Object.values(this.seats))
+            seat.selected = this.store.selectedSeats.includes(seat.id)
 
         this.loading = false
     },
     methods: {
-        async load() {
-            try {
-                this.loading = true
-                this.error = null
-                const res = await fetch('data/seats/tere.xml')
-                if (!res.ok) {
-                    this.error = `Error: ${res.statusText}`
-                    return null
-                }
-                return await res.text()
-            } finally {
-                this.loading = false    
-            }
-        },
         seatClicked(seat) {
             if (!seat.available) return;
             seat.selected = !seat.selected;
             
-            const index = this.bookingStore.selectedSeats.indexOf(seat.id)
+            const index = this.store.selectedSeats.indexOf(seat.id)
             if (seat.selected) {
                 if (index == -1)
-                    this.bookingStore.selectedSeats.push(seat.id)
+                    this.store.selectedSeats.push(seat.id)
             } else {
                 if (index != -1)
-                    this.bookingStore.selectedSeats.splice(index, 1)
+                    this.store.selectedSeats.splice(index, 1)
             }
         },
         hoverSeat(seat, e) {
@@ -69,12 +48,11 @@ export default {
         }
     },
     computed: {
-        canContinue() { return this.seats.some(x => x.selected) },
-        selectedSeats() { return this.seats.filter(x => x.selected) },
+        canContinue() { return Object.values(this.seats).some(x => x.selected) },
+        selectedSeats() { return Object.values(this.seats).filter(x => x.selected) },
         totalPrice() {
-             return this.selectedSeats.length
-                ? this.selectedSeats.map(x => x.price).reduce((a,b)=>a+b)
-                : 0
+            const seats = this.selectedSeats
+            return seats.length ? seats.map(x => x.price).reduce((a,b) => a+b) : 0
         }
     },
     template: /*html*/`
@@ -87,9 +65,10 @@ export default {
             <div class="seats" :style="{ gridTemplateColumns: \`repeat($\{cols}, 1fr)\` }">
                 <div v-if="loading">Loading...</div>
                 <div v-if="error">{{ error }}</div>
+                <div v-for="seat in seats">x</div>
                 <Seat
-                    v-if="seats"
-                    v-for="seat in seats" v-bind="seat"
+                    v-for="seat in Object.values(seats)"
+                    v-bind="seat"
                     @clicked="seatClicked(seat)"
                     @pointerenter="(e) => hoverSeat(seat, e)"
                     @pointerleave="unhover"
@@ -97,15 +76,15 @@ export default {
             </div>
             <div class="seat-info" style="margin-bottom: 1rem">
                 <div>
-                    Selected seats: {{ seats.filter(x => x.selected).length }}
+                    Selected seats: {{ Object.values(seats).filter(x => x.selected).length }}
                 </div>
                 <div>
                     Total price: $\{{totalPrice}}
                 </div>
             </div>
             <div class="uniform-grid-columns">
-                <button @click="bookingStore.back()">Back</button>
-                <button @click="bookingStore.next()" :disabled="!canContinue">Continue</button>
+                <button @click="store.back()">Back</button>
+                <button @click="store.next()" :disabled="!canContinue">Continue</button>
             </div>
         </div>
     `
