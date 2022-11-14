@@ -19,8 +19,13 @@ export default {
         this.cols = boat.cols
         this.seats = boat.seats
 
-        for (let seat of Object.values(this.seats))
-            seat.selected = this.store.selectedSeats.includes(seat.id)
+        for (let seat of Object.values(this.seats)) {
+            const index = this.store.selectedSeats.indexOf(seat.id)
+            seat.selected = seat.available && index >= 0
+            if (!seat.available && index >= 0) {
+                this.store.selectedSeats.splice(index, 1)
+            }
+        }
 
         this.loading = false
     },
@@ -61,7 +66,7 @@ export default {
                 <div v-if="hoveringSeat.available">Price: $\{{ hoveringSeat.price }}</div>
                 <div v-else>This seat is unavailable.</div>
             </Tooltip>
-            <h2 style=" margin-bottom: 1rem; font-size: 2rem; text-align: center">Please select your seats.</h2>
+            <div style=" margin-bottom: 1rem; font-size: 2rem; text-align: center">Please select your seats.</div>
             <div class="seats" :style="{ gridTemplateColumns: \`repeat($\{cols}, 1fr)\` }">
                 <div v-if="loading">Loading...</div>
                 <div v-if="error">{{ error }}</div>

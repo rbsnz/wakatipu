@@ -63,6 +63,7 @@ export default {
             })
         }
 
+        lastUpdate = now
         return (cachedWeather = list)
     },
     getRandomWeather() {

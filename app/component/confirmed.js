@@ -1,9 +1,12 @@
-import { useBookingStore } from "../stores/booking.js"
+import { useBookingStore } from '../stores/booking.js'
 
 export default {
     data: () => ({ store: useBookingStore() }),
     mounted() {
         this.store.confirm()
+    },
+    unmounted() {
+        this.store.restart()
     },
     template: /*html*/`
         <div class="glass-container">

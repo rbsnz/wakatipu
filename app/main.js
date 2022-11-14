@@ -1,4 +1,5 @@
 import App from './app.js'
+import Tooltip from './component/tooltip.js'
 import BoatSelector from './component/boat-selector.js'
 import SeatSelector from './component/seat-selector.js'
 import Seat from './component/seat.js'
@@ -8,7 +9,6 @@ import MenuSelector from './component/menu-selector.js'
 import Confirmation from './component/confirmation.js'
 import Confirmed from './component/confirmed.js'
 
-import Tooltip from './component/tooltip.js'
 import Game from '../game/game.js'
 
 import router from './router.js'

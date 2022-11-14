@@ -1,5 +1,3 @@
-import Booking from './page/booking.js'
-
 export default {
     template: /*html*/`
         <!-- Header -->

@@ -44,6 +44,7 @@ export const useBookingStore = Pinia.defineStore('booking', {
                 this.step++
         },
         confirm() {
+            if (!this.selectedBoat || !this.selectedSeats) return
             const boat = this.selectedBoat.toLowerCase()
             const date = this.selectedDate
             const hour = this.selectedTime.toString().padStart(2, '0')

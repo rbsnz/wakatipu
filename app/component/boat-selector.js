@@ -1,4 +1,4 @@
-import { useBookingStore } from "../stores/booking.js"
+import { useBookingStore } from '../stores/booking.js'
 
 export default {
     data: () => ({ store: useBookingStore() }),
@@ -18,7 +18,7 @@ export default {
             <div class="uniform-grid-columns" style="margin-bottom: 1rem">
                 <button v-for="boat in store.boats" @click="store.selectBoat(boat)" :class="{ selected: boat.selected }">
                     <div class="boat-name">{{ boat.name }}</div>
-                    <div class="boat-image" :style="{ backgroundImage: 'url(media/' + boat.image + ')' }"></div>
+                    <div class="boat-image" :style="{ backgroundImage: 'url(media/boats/' + boat.image + ')' }"></div>
                     <div>Maximum capacity: {{ Object.keys(boat.seats).length }}</div>
                     <div>Seats available: {{ Object.values(boat.seats).filter(x => x.available).length }}</div>
                 </button>
