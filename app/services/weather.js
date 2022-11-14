@@ -43,15 +43,16 @@ export default {
         const res = await fetch(url)
         const data = await res.json()
 
-        const list = []
+        const calcNoonOffset = (date) => Math.abs(date.getHours() - 12)
 
-        let currentDate = null
+        const weathers = {}
         for (const item of data.list) {
             const date = new Date(item.dt * 1000)
             const key = toDateString(date)
-            if (currentDate == key) continue
-            currentDate = key
-            list.push({
+            // Only take the weather nearest to noon
+            if (weathers[key] && calcNoonOffset(date) > calcNoonOffset(weathers[key].date))
+                continue
+            weathers[key] = {
                 date,
                 day: date.getDate(),
                 weekDay: DayNames[date.getDay()],
@@ -60,11 +61,11 @@ export default {
                 temp: item.main.temp,
                 selected: false,
                 disabled: true
-            })
+            }
         }
 
         lastUpdate = now
-        return (cachedWeather = list)
+        return (cachedWeather = Object.values(weathers))
     },
     getRandomWeather() {
         const now = Date.now()
