@@ -1,6 +1,6 @@
 import Home from './page/home.js'
 import Booking from './page/booking.js'
-import Game from '../game/game.js'
+import Game from '../game/Game.js'
 
 const routes = [
     { path: '/', component: Home },
