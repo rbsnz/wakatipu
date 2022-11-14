@@ -18,7 +18,7 @@ export class Sounds {
             this.hurt.push(new Audio(`media/game/sound/damaged${i}.wav`))
         }
 
-        this.collect = new Audio(`media/game/sound/Rise02.wav`)
+        this.collect = new Audio(`media/game/sound/rise02.wav`)
     }
 
     play(sound) {
