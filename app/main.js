@@ -9,7 +9,7 @@ import MenuSelector from './component/menu-selector.js'
 import Confirmation from './component/confirmation.js'
 import Confirmed from './component/confirmed.js'
 
-import Game from '../game/game.js'
+import Game from '../game/Game.js'
 
 import router from './router.js'
 
