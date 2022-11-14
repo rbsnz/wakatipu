@@ -1,4 +1,4 @@
-import { Rectangle } from './rectangle.js'
+import { Rectangle } from './Rectangle.js'
 
 import { SoundManager } from './Sounds.js'
 

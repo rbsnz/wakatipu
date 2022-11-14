@@ -1,6 +1,6 @@
 import { Bug } from './Bug.js'
 import { Player } from './Player.js'
-import { Rectangle } from './rectangle.js'
+import { Rectangle } from './Rectangle.js'
 import { SoundManager } from './Sounds.js'
 
 const { useStorage } = VueUse

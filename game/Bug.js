@@ -1,4 +1,4 @@
-import { Rectangle } from './rectangle.js'
+import { Rectangle } from './Rectangle.js'
 
 const StartRadius = 6
 const EndRadius = 20
