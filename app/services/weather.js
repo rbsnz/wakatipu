@@ -5,6 +5,8 @@ const Coords = { lat: -45.05, lon: 168.5 }
 const DayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 const RandomWeatherIds = [800, 801, 500]
 
+import { toDateString } from '../util/time.js'
+
 function getWeatherType(id) {
     let group = Math.floor(id / 100)
     switch (group) {
@@ -46,7 +48,7 @@ export default {
         let currentDate = null
         for (const item of data.list) {
             const date = new Date(item.dt * 1000)
-            const key = { month: date.getMonth(), day: date.getDate() }
+            const key = toDateString(date)
             if (currentDate == key) continue
             currentDate = key
             list.push({
@@ -104,9 +106,6 @@ export default {
             case 8: return id == 800 ? 'Clear' : 'Clouds'
         }
         return 'Unknown'
-    },
-    getWeatherDescription(id) {
-        
     },
     getWeatherImage(id) {
         const urlBase = '/media/amcharts_weather_icons_1.0.0/animated/'
