@@ -86,7 +86,7 @@ export default {
                 let weatherDesc = ''
                 if (day.temp < 14)
                     weatherDesc += 'cold'
-                if (day.weather == 'rainy') {
+                if (day.weatherType == 'rainy') {
                     if (weatherDesc.length > 0)
                         weatherDesc += ', '
                     weatherDesc += 'rainy'
