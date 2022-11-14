@@ -23,5 +23,21 @@
 </head>
 <body>
     <div id="app"></div>
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			if (window.location.protocol.startsWith("file")) {
+				const app = document.getElementById('app')
+				app.style.padding = '1rem'
+				app.style.fontFamily = 'Consolas, monospace'
+				app.style.backgroundColor = 'black'
+                app.style.color = 'red'
+				app.style.fontSize = '3rem'
+				app.innerHTML = `
+                    <div>This application cannot be run over the file:// protocol.</div>
+                    <div>Please access this site using a local development server.</div>
+                `;
+			}
+		});
+	</script>
 </body>
 </html>
