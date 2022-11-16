@@ -182,7 +182,7 @@ export default {
                 this.pause()
             if (e.repeat || this.paused) return
             this.keys[e.code] = true
-            if (e.code == 'KeyD')
+            if (e.code == 'KeyT')
                 this.debug = !this.debug
             if (this.paused) return
             this.player.keyPressed(e)

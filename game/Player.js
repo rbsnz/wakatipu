@@ -119,10 +119,10 @@ export class Player {
             }
         } else {
             let direction = { x: 0, y: 0 }
-            if (keys['ArrowLeft']) direction.x--
-            if (keys['ArrowRight']) direction.x++
-            if (keys['ArrowUp']) direction.y--
-            if (keys['ArrowDown']) direction.y++
+            if (keys['ArrowLeft'] || keys['KeyA']) direction.x--
+            if (keys['ArrowRight'] || keys['KeyD']) direction.x++
+            if (keys['ArrowUp'] || keys['KeyW']) direction.y--
+            if (keys['ArrowDown'] || keys['KeyS']) direction.y++
             const speed = delta * this.walkingSpeed
             const xSpeed = speed * direction.x
             const ySpeed = speed * direction.y
