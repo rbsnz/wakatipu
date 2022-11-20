@@ -77,7 +77,7 @@ export const useBookingStore = Pinia.defineStore('booking', {
         /* Boats */
         async loadBoats() {
             if (!this.boats || !this.boats.length) {
-                const res = await fetch('/data/boats.xml')
+                const res = await fetch('data/boats.xml')
                 const xml = await res.text()
 
                 const xmlDoc = new DOMParser().parseFromString(xml, 'text/xml')
@@ -152,7 +152,7 @@ export const useBookingStore = Pinia.defineStore('booking', {
         async loadMenu() {
             if (this.items && this.items.length) return
 
-            const res = await fetch('/data/menu.xml')
+            const res = await fetch('data/menu.xml')
             const xml = await res.text()
 
             const xmlDoc = new DOMParser().parseFromString(xml, 'text/xml')
